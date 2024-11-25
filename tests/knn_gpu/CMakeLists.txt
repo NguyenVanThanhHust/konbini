@@ -38,4 +38,8 @@ set_target_properties(main_program PROPERTIES
 )
 
 # Link the executable against the CUDA shared library 
-target_link_libraries(main_program cuda_matmul_kernel cpu_matmul ${CUDA_CUDART_LIBRARY} CUDA::cudart)
+target_link_libraries(main_program knn_kernel ${CUDA_CUDART_LIBRARY} CUDA::cudart)
+
+#### 
+# Create the executable from the C++ source file 
+add_executable(mini_knn_gpu mini_knn.cu)

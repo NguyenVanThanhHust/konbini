@@ -1,7 +1,6 @@
 # Installation
 ## Build docker image
 For docker container on cpu only
-
 ```
 docker build -t konbini_cpu -f ./dockers/cpu.Dockerfile .
 ```

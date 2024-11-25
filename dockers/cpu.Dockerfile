@@ -66,7 +66,5 @@ RUN cd /opt/ &&\
     # Remove OpenCV sources and build folder
     rm -rf /opt/opencv-${OPENCV_VERSION} && rm -rf /opt/opencv_contrib-${OPENCV_VERSION}
     
-RUN apt update && apt install -y vim
-RUN apt update && apt install -y fish
-
+RUN apt update && apt install -y vim fish libboost-all-dev
 WORKDIR /workspace/
