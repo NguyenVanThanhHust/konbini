@@ -72,4 +72,5 @@ RUN python3 -m pip install "pybind11[global]"
 RUN python3 -m pip install pytest
 
 RUN apt update && apt install -y vim
+RUN apt update && apt install -y fish
 WORKDIR /workspace/

@@ -7,11 +7,6 @@ find_package(CUDAToolkit REQUIRED)
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# Add the executable
-add_executable(knn_gpu_app main.cpp knn_gpu.cuh knn_gpu.cu)
-
-# Specify additional include directories
-target_include_directories(knn_gpu_app PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 include(FindCUDA/select_compute_arch)
 CUDA_DETECT_INSTALLED_GPUS(INSTALLED_GPU_CCS_1)
@@ -21,11 +16,26 @@ string(REPLACE "." "" CUDA_ARCH_LIST "${INSTALLED_GPU_CCS_3}")
 SET(CMAKE_CUDA_ARCHITECTURES ${CUDA_ARCH_LIST})
 message("$(CUDA_ARCH_LIST)")
 
-set_property(TARGET knn_gpu_app PROPERTY "${CUDA_ARCH_LIST}")
+# Specify the CUDA source file 
+set(CUDA_SRC 
+    helper_cuda.h
+    helper_string.h
+    knn_gpu.cuh 
+    knn_gpu.cu) 
+
+# Create the CUDA shared library 
+add_library(knn_kernel SHARED ${CUDA_SRC})
+
+# Specify the C++ source file for executable progra
+set(EXE_PROG_SRC main.cpp) 
+# Create the executable from the C++ source file 
+add_executable(main_program ${EXE_PROG_SRC}) 
+
+set_property(TARGET main_program PROPERTY "${CUDA_ARCH_LIST}")
 # Set CUDA properties
-set_target_properties(knn_gpu_app PROPERTIES
+set_target_properties(main_program PROPERTIES
     CUDA_SEPARABLE_COMPILATION ON
 )
 
-target_link_libraries(knn_gpu_app PRIVATE CUDA::cudart)
-
+# Link the executable against the CUDA shared library 
+target_link_libraries(main_program cuda_matmul_kernel cpu_matmul ${CUDA_CUDART_LIBRARY} CUDA::cudart)
