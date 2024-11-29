@@ -72,5 +72,12 @@ RUN python3 -m pip install "pybind11[global]"
 RUN python3 -m pip install pytest
 
 RUN apt update && apt install -y vim fish libboost-all-dev
+WORKDIR /opt/
+RUN git config --global http.sslVerify false && git clone https://github.com/stotko/stdgpu && git config --global http.sslVerify true
+WORKDIR /opt/stdgpu
+RUN cmake -B build -S . -DCMAKE_BUILD_TYPE=RELEASE
+RUN cmake --build build --config Release --parallel 8
+# RUN cmake -E chdir build ctest -V -C Release --rerun-failed --output-on-failure
+RUN cmake --install build --config Release
 
 WORKDIR /workspace/

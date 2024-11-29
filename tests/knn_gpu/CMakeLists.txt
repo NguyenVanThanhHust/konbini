@@ -5,7 +5,7 @@ project(knn_gpu LANGUAGES CXX CUDA)
 find_package(CUDAToolkit REQUIRED)
 
 # Set the C++ standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FindCUDA/select_compute_arch)
