@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
-project(kmeans_gpu LANGUAGES CXX CUDA)
+project(knn_gpu LANGUAGES CXX CUDA)
 
 # Optionally, link against CUDA libraries
 find_package(CUDAToolkit REQUIRED)
@@ -16,18 +16,8 @@ string(REPLACE "." "" CUDA_ARCH_LIST "${INSTALLED_GPU_CCS_3}")
 SET(CMAKE_CUDA_ARCHITECTURES ${CUDA_ARCH_LIST})
 message("$(CUDA_ARCH_LIST)")
 
-# Specify the CUDA source file 
-set(CUDA_SRC 
-    helper_cuda.h
-    helper_string.h
-    kmeans_gpu.cuh 
-    kmeans_gpu.cu) 
-
-# Create the CUDA shared library 
-add_library(kmeans_kernel SHARED ${CUDA_SRC})
-
 # Specify the C++ source file for executable progra
-set(EXE_PROG_SRC main.cpp) 
+set(EXE_PROG_SRC gpu_std_vector.cu) 
 # Create the executable from the C++ source file 
 add_executable(main_program ${EXE_PROG_SRC}) 
 
@@ -38,8 +28,4 @@ set_target_properties(main_program PROPERTIES
 )
 
 # Link the executable against the CUDA shared library 
-target_link_libraries(main_program kmeans_kernel ${CUDA_CUDART_LIBRARY} CUDA::cudart)
-
-#### 
-# Create the executable from the C++ source file 
-add_executable(mini_kmeans_gpu mini_kmeans.cu)
+target_link_libraries(main_program ${CUDA_CUDART_LIBRARY} CUDA::cudart)
