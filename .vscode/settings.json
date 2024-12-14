@@ -58,6 +58,10 @@
         "__nullptr": "cpp",
         "__bit_reference": "cpp",
         "__hash_table": "cpp",
-        "__split_buffer": "cpp"
+        "__split_buffer": "cpp",
+        "codecvt": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp"
     }
 }
