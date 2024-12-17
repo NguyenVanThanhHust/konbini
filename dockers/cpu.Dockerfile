@@ -25,17 +25,12 @@ RUN apt-get update && apt-get upgrade -y &&\
         libglew-dev \
         libtiff5-dev \
         zlib1g-dev \
-        libjpeg-dev \
         libavcodec-dev \
-        libavformat-dev \
         libavutil-dev \
         libpostproc-dev \
-        libswscale-dev \
         libeigen3-dev \
-        libtbb-dev \
         libgtk2.0-dev \
         pkg-config \
-        ## Python
         python3-dev \
     && rm -rf /var/lib/apt/lists/*
 

@@ -16,7 +16,6 @@ RUN apt-get update && apt-get upgrade -y &&\
         pkg-config \
         libswscale-dev \
         libtbb2 \
-        libtbb-dev \
         libjpeg-dev \
         libpng-dev \
         libtiff-dev \
@@ -26,17 +25,13 @@ RUN apt-get update && apt-get upgrade -y &&\
         libglew-dev \
         libtiff5-dev \
         zlib1g-dev \
-        libjpeg-dev \
         libavcodec-dev \
-        libavformat-dev \
         libavutil-dev \
         libpostproc-dev \
-        libswscale-dev \
         libeigen3-dev \
         libtbb-dev \
         libgtk2.0-dev \
         pkg-config \
-        ## Python
         python3-dev \
         python3-numpy \
     && rm -rf /var/lib/apt/lists/*
