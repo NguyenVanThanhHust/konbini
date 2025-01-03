@@ -1,7 +1,7 @@
-FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
+FROM nvidia/cuda:12.3.2-cudnn9-devel-ubuntu22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG OPENCV_VERSION=4.7.0
+ARG OPENCV_VERSION=4.10.0
 
 RUN apt-get update && apt-get upgrade -y &&\
     # Install build tools, build dependencies and python
@@ -52,19 +52,19 @@ RUN cd /opt/ &&\
         -DWITH_CUDA=ON \
         -DCUDA_ARCH_BIN=7.5,8.0,8.6 \
         -DCMAKE_BUILD_TYPE=RELEASE \
-        # Install path will be /usr/local/lib (lib is implicit)
+        # Install path will be /usr/local/lib (lib is impli cit)
         -DCMAKE_INSTALL_PREFIX=/usr/local \
-        .. &&\
-    # Make
-    make -j10 && \
+        ..
+WORKDIR /opt/opencv-${OPENCV_VERSION}/build 
+RUN make -j12 && \
     # Install to /usr/local/lib
     make install && \
     ldconfig &&\
     # Remove OpenCV sources and build folder
     rm -rf /opt/opencv-${OPENCV_VERSION} && rm -rf /opt/opencv_contrib-${OPENCV_VERSION}
     
-RUN python3 -m pip install "pybind11[global]"
-RUN python3 -m pip install pytest
+RUN python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org "pybind11[global]"
+RUN python3 -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pytest
 
 RUN apt update && apt install -y vim fish libboost-all-dev
 WORKDIR /opt/
@@ -72,7 +72,6 @@ RUN git config --global http.sslVerify false && git clone https://github.com/sto
 WORKDIR /opt/stdgpu
 RUN cmake -B build -S . -DCMAKE_BUILD_TYPE=RELEASE
 RUN cmake --build build --config Release --parallel 8
-# RUN cmake -E chdir build ctest -V -C Release --rerun-failed --output-on-failure
 RUN cmake --install build --config Release
 
 WORKDIR /workspace/
